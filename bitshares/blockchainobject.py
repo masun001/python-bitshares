@@ -167,7 +167,11 @@ class BlockchainObject(dict, BlockchainInstance):
     def __getitem__(self, key):
         if not self.cached:
             self.refresh()
-        return super().__getitem__(key)
+        try:
+            return super().__getitem__(key)
+        except Exception as e:
+            self.refresh()
+            return super().__getitem__(key)
 
     def items(self):
         if not self.cached:
